@@ -1,0 +1,54 @@
+fun exists (p,l) = 
+    if l = []
+    then false
+    else 
+       if p (List.hd l)
+       then true
+       else exists (p,List.tl l);
+
+fun existsfirst (p, l) = 
+   if List.exists (fn a => a = p) (List.hd l)
+   then true
+   else false;
+
+fun equal e x = (e=x);
+
+fun count (p, l, countn) = 
+   if l = []
+   then countn
+   else 
+      if  List.exists p (List.hd l)
+      then count (p, List.tl l, countn+1)
+      else count (p, List.tl l, countn);
+
+
+fun cont (p, l, countn) = 
+   if l = []
+   then 0
+   else 
+      let
+         var head = List.hd l
+         var tail = List.tl l
+      in
+         if p=head
+         then cont (p, tail, countn+1)
+         else cont (p, tail, countn)
+      end;
+
+fun clean(p,l,i,tam) = 
+   if i > tam
+   then
+      if length l = 0
+      then []
+      else l
+   else
+      if p=List.hd l
+      then clean(p, List.drop(l,1),i+1,tam)
+      else clean(p,List.drop(l,1)^^List.take(l,1),i+1,tam);
+
+
+[cont(invert(n),lista,0)<2]
+cont(d,lista,0)<2
+
+[(cont(d,lista,0)<=2 andalso cont(invert(n),lista,0)<2) 
+orelse (cont(d,lista,0)<3 andalso cont(invert(n),lista,0)<1)]
